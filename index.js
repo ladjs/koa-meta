@@ -1,21 +1,21 @@
 const sanitizeHtml = require('sanitize-html');
 
-class Meta {
-  constructor(dictionary = {}) {
-    this.dictionary = Object.assign({ '/': ['', ''] }, dictionary);
-    // ensure all dictionary keys are arrays with two keys
-    Object.keys(this.dictionary).forEach(path => {
-      if (!Array.isArray(this.dictionary[path]))
+class SEO {
+  constructor(config = {}) {
+    this.config = Object.assign({ '/': ['', ''] }, config);
+    // ensure all config keys are arrays with two keys
+    Object.keys(this.config).forEach(path => {
+      if (!Array.isArray(this.config[path]))
         throw new Error(`path "${path}" was not an array`);
       // slice only the first two keys (0 = title, 1 = description)
-      this.dictionary[path] = this.dictionary[path].slice(0, 2);
+      this.config[path] = this.config[path].slice(0, 2);
       // ensure it has both keys
-      if (this.dictionary[path].length !== 2)
+      if (this.config[path].length !== 2)
         throw new Error(`path "${path}" must have exactly two keys`);
       // ensure both keys are strings
-      if (typeof this.dictionary[path][0] !== 'string')
+      if (typeof this.config[path][0] !== 'string')
         throw new Error(`path "${path}" needs String for title`);
-      if (typeof this.dictionary[path][1] !== 'string')
+      if (typeof this.config[path][1] !== 'string')
         throw new Error(`path "${path}" needs String for description`);
     });
   }
@@ -36,9 +36,9 @@ class Meta {
     if (path === '') path = '/';
 
     if (originalPath !== '/' && path === '/')
-      throw new Error(`path "${path}" needs a meta dictionary key defined`);
+      throw new Error(`path "${path}" needs a meta config key defined`);
 
-    let key = this.dictionary[path];
+    let key = this.config[path];
 
     // it should traverse up and split by / till it finds a parent route
     if (!key)
@@ -87,4 +87,4 @@ class Meta {
   }
 }
 
-module.exports = Meta;
+module.exports = SEO;

@@ -1,13 +1,13 @@
-# [**@ladjs/meta**](https://github.com/ladjs/meta)
+# koa-seo
 
-[![build status](https://img.shields.io/travis/ladjs/meta.svg)](https://travis-ci.org/ladjs/meta)
-[![code coverage](https://img.shields.io/codecov/c/github/ladjs/meta.svg)](https://codecov.io/gh/ladjs/meta)
+[![build status](https://img.shields.io/travis/ladjs/koa-seo.svg)](https://travis-ci.org/ladjs/koa-seo)
+[![code coverage](https://img.shields.io/codecov/c/github/ladjs/koa-seo.svg)](https://codecov.io/gh/ladjs/koa-seo)
 [![code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![made with lass](https://img.shields.io/badge/made_with-lass-95CC28.svg)](https://lass.js.org)
-[![license](https://img.shields.io/github/license/ladjs/meta.svg)](<>)
+[![license](https://img.shields.io/github/license/ladjs/koa-seo.svg)](<>)
 
-> Meta helper for Lad
+> SEO `<title>` and `<meta name="description">` middleware for Koa and Lad
 
 
 ## Table of Contents
@@ -26,13 +26,13 @@
 [npm][]:
 
 ```sh
-npm install @ladjs/meta
+npm install koa-seo
 ```
 
 [yarn][]:
 
 ```sh
-yarn add @ladjs/meta
+yarn add koa-seo
 ```
 
 
@@ -41,11 +41,11 @@ yarn add @ladjs/meta
 > Use middleware:
 
 ```js
-const Meta = require('@ladjs/meta');
+const SEO = require('koa-seo');
 
 /// ...
 
-app.use(new Meta({
+app.use(new SEO({
   '/': [ 'Home', 'Our home page description' ],
   '/contact', [ 'Contact', 'Contact us with questions' ]
 }).middleware);
@@ -72,14 +72,14 @@ html
 > Get a meta translation:
 
 ```js
-const Meta = require('@ladjs/meta');
+const SEO = require('koa-seo');
 
-const meta = new Meta({
+const seo = new SEO({
   '/': [ 'Home', 'Our home page description' ],
   '/posts': [ 'Posts', 'Posts by our team' ]
 });
 
-console.log(meta.getByPath('/posts/123456'));
+console.log(seo.getByPath('/posts/123456'));
 // `{ title: 'Posts', description: 'Posts by our team' }`
 ```
 
@@ -95,14 +95,14 @@ It checks for a function set on `ctx.req.t` and utilizes that function to transl
 
 This package supports parent meta data lookup for children of paths.
 
-This means if you define in your dictionary a path of `/posts` and a request is made to `/posts/123456` (with this path not being defined in your dictionary), then it will use `/posts` definition for `/posts/123456`.
+This means if you define in your configuration a path of `/posts` and a request is made to `/posts/123456` (with this path not being defined in your configuration), then it will use `/posts` definition for `/posts/123456`.
 
 
 ## Error Catching
 
 By default this package will throw an error if a child path was found that does not have a parent defined.
 
-This is extremely useful for retaining quality control with your dictionary.
+This is extremely useful for retaining quality control with your configuration.
 
 
 ## Contributors

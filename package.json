@@ -1,10 +1,11 @@
 {
-  "name": "@ladjs/meta",
-  "description": "Meta helper for Lad",
+  "name": "koa-seo",
+  "description":
+    "SEO <title> and <meta name=\"description\"> middleware for Koa and Lad",
   "version": "0.0.1",
   "author": "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)",
   "bugs": {
-    "url": "https://github.com/ladjs/meta/issues",
+    "url": "https://github.com/ladjs/koa-seo/issues",
     "email": "niftylettuce@gmail.com"
   },
   "contributors": [
@@ -32,8 +33,23 @@
   "engines": {
     "node": ">=8.3"
   },
-  "homepage": "https://github.com/ladjs/meta",
-  "keywords": ["@ladjs/meta", "lass"],
+  "homepage": "https://github.com/ladjs/koa-seo",
+  "keywords": [
+    "@ladjs/meta",
+    "title",
+    "description",
+    "meta",
+    "koa",
+    "lad",
+    "metadata",
+    "seo",
+    "state",
+    "middleware",
+    "dictionary",
+    "paths",
+    "lookup",
+    "lass"
+  ],
   "license": "MIT",
   "lint-staged": {
     "*.{js,jsx,mjs,ts,tsx,css,less,scss,json,graphql}": [
@@ -55,7 +71,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/ladjs/meta"
+    "url": "https://github.com/ladjs/koa-seo"
   },
   "scripts": {
     "coverage": "nyc report --reporter=text-lcov > coverage.lcov && codecov",
