@@ -1,0 +1,106 @@
+# [**@ladjs/meta**](https://github.com/ladjs/meta)
+
+[![build status](https://img.shields.io/travis/ladjs/meta.svg)](https://travis-ci.org/ladjs/meta)
+[![code coverage](https://img.shields.io/codecov/c/github/ladjs/meta.svg)](https://codecov.io/gh/ladjs/meta)
+[![code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
+[![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![made with lass](https://img.shields.io/badge/made_with-lass-95CC28.svg)](https://lass.js.org)
+[![license](https://img.shields.io/github/license/ladjs/meta.svg)](<>)
+
+> Meta helper for Lad
+
+
+## Table of Contents
+
+* [Install](#install)
+* [Usage](#usage)
+* [Translation Support](#translation-support)
+* [Child Path Support](#child-path-support)
+* [Error Catching](#error-catching)
+* [Contributors](#contributors)
+* [License](#license)
+
+
+## Install
+
+[npm][]:
+
+```sh
+npm install @ladjs/meta
+```
+
+[yarn][]:
+
+```sh
+yarn add @ladjs/meta
+```
+
+
+## Usage
+
+> Use middleware:
+
+```js
+const Meta = require('@ladjs/meta');
+
+/// ...
+
+app.use(new Meta({
+  '/': [ 'Home', 'Our home page description' ],
+  '/contact', [ 'Contact', 'Contact us with questions' ]
+}).middleware);
+```
+
+> Get a meta translation:
+
+```js
+const Meta = require('@ladjs/meta');
+
+const meta = new Meta({
+  '/': [ 'Home', 'Our home page description' ],
+  '/posts': [ 'Posts', 'Posts by our team' ]
+});
+
+console.log(meta.getByPath('/posts/123456'));
+// `{ title: 'Posts', description: 'Posts by our team' }`
+```
+
+
+## Translation Support
+
+This package supports translation out of the box.
+
+It checks for a function set on `ctx.req.t` and utilizes that function to translate based off the request's locale.
+
+
+## Child Path Support
+
+This package supports parent meta data lookup for children of paths.
+
+This means if you define in your dictionary a path of `/posts` and a request is made to `/posts/123456` (with this path not being defined in your dictionary), then it will use `/posts` definition for `/posts/123456`.
+
+
+## Error Catching
+
+By default this package will throw an error if a child path was found that does not have a parent defined.
+
+This is extremely useful for retaining quality control with your dictionary.
+
+
+## Contributors
+
+| Name           | Website                    |
+| -------------- | -------------------------- |
+| **Nick Baugh** | <http://niftylettuce.com/> |
+
+
+## License
+
+[MIT](LICENSE) © [Nick Baugh](http://niftylettuce.com/)
+
+
+## 
+
+[npm]: https://www.npmjs.com/
+
+[yarn]: https://yarnpkg.com/
