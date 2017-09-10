@@ -1,6 +1,6 @@
 const sanitizeHtml = require('sanitize-html');
 
-class SEO {
+class Meta {
   constructor(config = {}) {
     this.config = Object.assign({ '/': ['', ''] }, config);
     // ensure all config keys are arrays with two keys
@@ -87,4 +87,4 @@ class SEO {
   }
 }
 
-module.exports = SEO;
+module.exports = Meta;

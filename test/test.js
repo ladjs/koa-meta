@@ -1,6 +1,6 @@
 const test = require('ava');
 
-const SEO = require('../');
+const Meta = require('../');
 
 const next = () => {};
 const req = {};
@@ -14,11 +14,11 @@ const getRequest = () => {
 };
 
 test('returns itself', t => {
-  t.true(new SEO() instanceof SEO);
+  t.true(new Meta() instanceof Meta);
 });
 
 test('middleware should ignore xhr requests', t => {
-  const seo = new SEO();
+  const meta = new Meta();
   const ctx = {
     path: '/',
     method: 'POST',
@@ -26,16 +26,16 @@ test('middleware should ignore xhr requests', t => {
     request: getRequest(),
     req
   };
-  seo.middleware(ctx, next);
+  meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {});
   ctx.method = 'GET';
   ctx.request.headers['X-Requested-With'] = 'XMLHttpRequest';
-  seo.middleware(ctx, next);
+  meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {});
 });
 
 test('middleware should work', t => {
-  const seo = new SEO({
+  const meta = new Meta({
     '/': ['Home', 'Our home page description']
   });
   const ctx = {
@@ -45,7 +45,7 @@ test('middleware should work', t => {
     request: getRequest(),
     req
   };
-  seo.middleware(ctx, next);
+  meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
@@ -55,7 +55,7 @@ test('middleware should work', t => {
 });
 
 test('middleware should sanitize html', t => {
-  const seo = new SEO({
+  const meta = new Meta({
     '/': ['<strong>Home</strong>', 'Our <strong>home page</strong> description']
   });
   const ctx = {
@@ -65,7 +65,7 @@ test('middleware should sanitize html', t => {
     request: getRequest(),
     req
   };
-  seo.middleware(ctx, next);
+  meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
@@ -77,7 +77,7 @@ test('middleware should sanitize html', t => {
 test('set an invalid config path without an array', t => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new SEO({ '/': false });
+    new Meta({ '/': false });
   });
   t.regex(error.message, /was not an array/);
 });
@@ -85,7 +85,7 @@ test('set an invalid config path without an array', t => {
 test('set an invalid config path without two keys', t => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new SEO({ '/': [] });
+    new Meta({ '/': [] });
   });
   t.regex(error.message, /must have exactly two keys/);
 });
@@ -93,7 +93,7 @@ test('set an invalid config path without two keys', t => {
 test('set an invalid config key title', t => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new SEO({ '/': [false, false] });
+    new Meta({ '/': [false, false] });
   });
   t.regex(error.message, /needs String for title/);
 });
@@ -101,13 +101,13 @@ test('set an invalid config key title', t => {
 test('set an invalid config key description', t => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new SEO({ '/': ['', false] });
+    new Meta({ '/': ['', false] });
   });
   t.regex(error.message, /needs String for description/);
 });
 
 test('translation function', t => {
-  const seo = new SEO({
+  const meta = new Meta({
     '/': ['Home', 'Our home page description']
   });
   const ctx = {
@@ -126,7 +126,7 @@ test('translation function', t => {
       req
     )
   };
-  seo.middleware(ctx, next);
+  meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home'
@@ -142,7 +142,7 @@ test('translation function', t => {
 });
 
 test('uses parent meta on nested path', t => {
-  const seo = new SEO({
+  const meta = new Meta({
     '/': ['Home', 'Our home page description'],
     '/blog': ['Blog', 'Our blog and more about our company']
   });
@@ -153,7 +153,7 @@ test('uses parent meta on nested path', t => {
     request: getRequest(),
     req
   };
-  seo.middleware(ctx, next);
+  meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Blog',
@@ -163,7 +163,7 @@ test('uses parent meta on nested path', t => {
 });
 
 test('throws error on nested path without parent meta', t => {
-  const seo = new SEO({
+  const meta = new Meta({
     '/': ['Home', 'Our home page description']
   });
   const ctx = {
@@ -174,7 +174,7 @@ test('throws error on nested path without parent meta', t => {
     req
   };
   const error = t.throws(() => {
-    seo.middleware(ctx, next);
+    meta.middleware(ctx, next);
   });
   t.regex(error.message, /needs a meta config key defined/);
 });
@@ -182,7 +182,7 @@ test('throws error on nested path without parent meta', t => {
 test('getByPath throws error without `path` string', t => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new SEO().getByPath();
+    new Meta().getByPath();
   });
   t.is(error.message, 'path is required and must be a String');
 });
@@ -190,7 +190,7 @@ test('getByPath throws error without `path` string', t => {
 test('getByPath throws error with `t` defined non-function', t => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new SEO().getByPath('/', false);
+    new Meta().getByPath('/', false);
   });
   t.is(error.message, 't must be a Function');
 });
@@ -198,7 +198,7 @@ test('getByPath throws error with `t` defined non-function', t => {
 test('getByPath throws error without `originalPath` string', t => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new SEO().getByPath('/', null, false);
+    new Meta().getByPath('/', null, false);
   });
   t.is(error.message, 'originalPath must be a String');
 });

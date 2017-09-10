@@ -1,13 +1,13 @@
-# koa-seo
+# koa-meta
 
-[![build status](https://img.shields.io/travis/ladjs/koa-seo.svg)](https://travis-ci.org/ladjs/koa-seo)
-[![code coverage](https://img.shields.io/codecov/c/github/ladjs/koa-seo.svg)](https://codecov.io/gh/ladjs/koa-seo)
+[![build status](https://img.shields.io/travis/ladjs/koa-meta.svg)](https://travis-ci.org/ladjs/koa-meta)
+[![code coverage](https://img.shields.io/codecov/c/github/ladjs/koa-meta.svg)](https://codecov.io/gh/ladjs/koa-meta)
 [![code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![made with lass](https://img.shields.io/badge/made_with-lass-95CC28.svg)](https://lass.js.org)
-[![license](https://img.shields.io/github/license/ladjs/koa-seo.svg)](<>)
+[![license](https://img.shields.io/github/license/ladjs/koa-meta.svg)](<>)
 
-> SEO `<title>` and `<meta name="description">` middleware for Koa and Lad
+> Meta `<title>` and `<meta name="description">` middleware for Koa and Lad
 
 
 ## Table of Contents
@@ -26,13 +26,13 @@
 [npm][]:
 
 ```sh
-npm install koa-seo
+npm install koa-meta
 ```
 
 [yarn][]:
 
 ```sh
-yarn add koa-seo
+yarn add koa-meta
 ```
 
 
@@ -41,11 +41,11 @@ yarn add koa-seo
 > Use middleware:
 
 ```js
-const SEO = require('koa-seo');
+const Meta = require('koa-meta');
 
 /// ...
 
-app.use(new SEO({
+app.use(new Meta({
   '/': [ 'Home', 'Our home page description' ],
   '/contact', [ 'Contact', 'Contact us with questions' ]
 }).middleware);
@@ -72,14 +72,14 @@ html
 > Get a meta translation:
 
 ```js
-const SEO = require('koa-seo');
+const Meta = require('koa-meta');
 
-const seo = new SEO({
+const meta = new Meta({
   '/': [ 'Home', 'Our home page description' ],
   '/posts': [ 'Posts', 'Posts by our team' ]
 });
 
-console.log(seo.getByPath('/posts/123456'));
+console.log(meta.getByPath('/posts/123456'));
 // `{ title: 'Posts', description: 'Posts by our team' }`
 ```
 
