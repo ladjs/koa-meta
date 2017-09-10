@@ -49,6 +49,24 @@ app.use(new Meta({
   '/': [ 'Home', 'Our home page description' ],
   '/contact', [ 'Contact', 'Contact us with questions' ]
 }).middleware);
+
+app.use((ctx, next) => {
+  // since the previous middleware was defined before this
+  // the `ctx.state` object has been populated with metadata
+  console.log('ctx.state.meta', ctx.state.meta);
+  // for a request with `ctx.path` of `/` it will output:
+  // { title: 'Home', description: 'Our home page description' }
+});
+```
+
+Therefore in your views you can render the meta data easily:
+
+```pug
+doctype html
+html
+  head
+    title= meta.title
+    meta(name="description", content=meta.description)
 ```
 
 > Get a meta translation:
