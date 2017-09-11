@@ -45,10 +45,12 @@ const Meta = require('koa-meta');
 
 /// ...
 
-app.use(new Meta({
+const meta = new Meta({
   '/': [ 'Home', 'Our home page description' ],
   '/contact', [ 'Contact', 'Contact us with questions' ]
-}).middleware);
+});
+
+app.use(meta.middleware.bind(meta));
 
 app.use((ctx, next) => {
   // since the previous middleware was defined before this
