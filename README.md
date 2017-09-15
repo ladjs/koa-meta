@@ -50,7 +50,7 @@ const meta = new Meta({
   '/contact', [ 'Contact', 'Contact us with questions' ]
 });
 
-app.use(meta.middleware.bind(meta));
+app.use(meta.middleware);
 
 app.use((ctx, next) => {
   // since the previous middleware was defined before this

@@ -1,4 +1,5 @@
 const sanitizeHtml = require('sanitize-html');
+const autoBind = require('auto-bind');
 
 class Meta {
   constructor(config = {}) {
@@ -18,6 +19,7 @@ class Meta {
       if (typeof this.config[path][1] !== 'string')
         throw new Error(`path "${path}" needs String for description`);
     });
+    autoBind(this);
   }
   getByPath(path, t, originalPath) {
     if (typeof path !== 'string')
