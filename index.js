@@ -35,7 +35,11 @@ class Meta {
     // if we traversed recursively this would be empty due to substring below
     if (path === '') path = '/';
 
-    if (originalPath !== '/' && path === '/')
+    if (
+      originalPath !== '/' &&
+      originalPath.lastIndexOf('/') !== 0 &&
+      path === '/'
+    )
       throw new Error(`path "${path}" needs a meta config key defined`);
 
     let key = this.config[path];
