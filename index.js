@@ -1,3 +1,4 @@
+const { extname } = require('path');
 const sanitizeHtml = require('sanitize-html');
 const autoBind = require('auto-bind');
 
@@ -68,9 +69,11 @@ class Meta {
   }
   middleware(ctx, next) {
     // return early if it's not a GET or is an xhr request
+    // return early if its not a pure path (e.g. ignore static assets)
     if (
       ctx.method !== 'GET' ||
-      ctx.request.get('X-Requested-With') === 'XMLHttpRequest'
+      ctx.request.get('X-Requested-With') === 'XMLHttpRequest' ||
+      extname(ctx.path) !== ''
     )
       return next();
 

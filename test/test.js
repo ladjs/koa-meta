@@ -177,6 +177,32 @@ test('throws error on nested path without parent home meta', t => {
   t.is(error.message, 'path "/123" needs a meta config key defined');
 });
 
+test('ignores paths in nested dir with a file extension', t => {
+  const meta = new Meta({});
+  const ctx = {
+    path: '/css/file.css',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req
+  };
+  meta.middleware(ctx, next);
+  t.deepEqual(ctx.state, {});
+});
+
+test('ignores paths in root dir with a file extension', t => {
+  const meta = new Meta({});
+  const ctx = {
+    path: 'file.css',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req
+  };
+  meta.middleware(ctx, next);
+  t.deepEqual(ctx.state, {});
+});
+
 test('throws error on nested path without parent blog meta', t => {
   const meta = new Meta({
     '/': ['Home', 'Our home page description']
