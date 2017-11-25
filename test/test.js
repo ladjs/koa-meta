@@ -162,7 +162,22 @@ test('uses parent meta on nested path', t => {
   });
 });
 
-test('throws error on nested path without parent meta', t => {
+test('throws error on nested path without parent home meta', t => {
+  const meta = new Meta({});
+  const ctx = {
+    path: '/123',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req
+  };
+  const error = t.throws(() => {
+    meta.middleware(ctx, next);
+  });
+  t.is(error.message, 'path "/123" needs a meta config key defined');
+});
+
+test('throws error on nested path without parent blog meta', t => {
   const meta = new Meta({
     '/': ['Home', 'Our home page description']
   });
@@ -176,7 +191,7 @@ test('throws error on nested path without parent meta', t => {
   const error = t.throws(() => {
     meta.middleware(ctx, next);
   });
-  t.regex(error.message, /needs a meta config key defined/);
+  t.is(error.message, 'path "/blog" needs a meta config key defined');
 });
 
 test('getByPath throws error without `path` string', t => {

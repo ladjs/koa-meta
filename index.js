@@ -34,25 +34,18 @@ class Meta {
     if (typeof originalPath !== 'string')
       throw new Error('originalPath must be a String');
 
-    // if we traversed recursively this would be empty due to substring below
-    if (path === '') path = '/';
-
-    if (
-      originalPath !== '/' &&
-      originalPath.lastIndexOf('/') !== 0 &&
-      path === '/'
-    )
-      throw new Error(`path "${path}" needs a meta config key defined`);
-
     let key = this.config[path];
 
     // it should traverse up and split by / till it finds a parent route
     if (!key)
-      return this.getByPath(
-        path.substring(0, path.lastIndexOf('/')),
-        t,
-        originalPath
-      );
+      if (path === '/' || path.substring(0, path.lastIndexOf('/')) === '')
+        throw new Error(`path "${path}" needs a meta config key defined`);
+      else
+        return this.getByPath(
+          path.substring(0, path.lastIndexOf('/')),
+          t,
+          originalPath
+        );
 
     // translate the meta information
     key = key.map(str => {
