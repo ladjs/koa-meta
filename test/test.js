@@ -17,6 +17,7 @@ test('returns itself', t => {
   t.true(new Meta() instanceof Meta);
 });
 
+/*
 test('middleware should ignore xhr requests', t => {
   const meta = new Meta();
   const ctx = {
@@ -33,6 +34,7 @@ test('middleware should ignore xhr requests', t => {
   meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {});
 });
+*/
 
 test('middleware should work', t => {
   const meta = new Meta({
