@@ -2,7 +2,7 @@
   "name": "koa-meta",
   "description":
     "SEO <title> and <meta name=\"description\"> middleware for Koa and Lad",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "author": "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)",
   "bugs": {
     "url": "https://github.com/ladjs/koa-meta/issues",
@@ -12,7 +12,6 @@
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
-    "@ladjs/logger": "^0.0.6",
     "auto-bind": "^1.1.0",
     "sanitize-html": "^1.16.1"
   },
