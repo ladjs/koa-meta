@@ -76,7 +76,12 @@ class Meta {
     //
     // this has built in support for @ladjs/i18n
     // since it exposes `ctx.pathWithoutLocale`
-    const data = this.getByPath(ctx.pathWithoutLocale || ctx.path, ctx.req.t);
+    let data = {};
+    try {
+      data = this.getByPath(ctx.pathWithoutLocale || ctx.path, ctx.req.t);
+    } catch (err) {
+      data = this.getByPath('/', ctx.req.t);
+    }
     Object.assign(ctx.state, { meta: {} });
     Object.assign(ctx.state.meta, data);
     return next();
