@@ -4,7 +4,7 @@ const autoBind = require('auto-bind');
 
 class Meta {
   constructor(config = {}) {
-    this.config = Object.assign({ '/': ['', ''] }, config);
+    this.config = { '/': ['', ''], ...config };
     // ensure all config keys are arrays with two keys
     Object.keys(this.config).forEach(path => {
       if (!Array.isArray(this.config[path]))
@@ -22,6 +22,7 @@ class Meta {
     });
     autoBind(this);
   }
+
   getByPath(path, t, originalPath) {
     if (typeof path !== 'string')
       throw new Error('path is required and must be a String');
@@ -67,6 +68,7 @@ class Meta {
 
     return { title: key[0], description: key[1] };
   }
+
   middleware(ctx, next) {
     // return early if its not a pure path (e.g. ignore static assets)
     if (extname(ctx.path) !== '') return next();

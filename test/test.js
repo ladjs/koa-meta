@@ -1,6 +1,6 @@
 const test = require('ava');
 
-const Meta = require('../');
+const Meta = require('..');
 
 const next = () => {};
 const req = {};
@@ -117,16 +117,14 @@ test('translation function', t => {
     method: 'GET',
     state: {},
     request: getRequest(),
-    req: Object.assign(
-      {
-        t: str =>
-          str
-            .split('')
-            .reverse()
-            .join('')
-      },
-      req
-    )
+    req: {
+      t: str =>
+        str
+          .split('')
+          .reverse()
+          .join(''),
+      ...req
+    }
   };
   meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {
