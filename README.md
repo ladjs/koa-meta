@@ -50,6 +50,10 @@ const meta = new Meta({
   '/contact', [ 'Contact', 'Contact us with questions' ]
 });
 
+// note: you can also pass a second argument of a custom `logger`
+// the default logger is `console` and must have a `.error` method
+// `const meta = new Meta({}, console);`
+
 app.use(meta.middleware);
 
 app.use((ctx, next) => {

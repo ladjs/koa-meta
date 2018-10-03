@@ -3,8 +3,9 @@ const sanitizeHtml = require('sanitize-html');
 const autoBind = require('auto-bind');
 
 class Meta {
-  constructor(config = {}) {
+  constructor(config = {}, logger = console) {
     this.config = { '/': ['', ''], ...config };
+    this.logger = logger;
     // ensure all config keys are arrays with two keys
     Object.keys(this.config).forEach(path => {
       if (!Array.isArray(this.config[path]))
@@ -82,6 +83,7 @@ class Meta {
     try {
       data = this.getByPath(ctx.pathWithoutLocale || ctx.path, ctx.req.t);
     } catch (err) {
+      this.logger.error(err);
       data = this.getByPath('/', ctx.req.t);
     }
     Object.assign(ctx.state, { meta: {} });

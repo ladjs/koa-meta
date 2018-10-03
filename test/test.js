@@ -1,4 +1,5 @@
 const test = require('ava');
+const sinon = require('sinon');
 
 const Meta = require('..');
 
@@ -171,10 +172,11 @@ test('throws error on nested path without parent home meta', t => {
     request: getRequest(),
     req
   };
-  const error = t.throws(() => {
-    meta.middleware(ctx, next);
-  });
-  t.is(error.message, 'path "/123" needs a meta config key defined');
+  const spy = sinon.spy(console, 'error');
+  meta.middleware(ctx, next);
+  spy.calledWithMatch('path "/123" needs a meta config key defined');
+  spy.restore();
+  t.pass();
 });
 
 test('ignores paths in nested dir with a file extension', t => {
@@ -214,10 +216,11 @@ test('throws error on nested path without parent blog meta', t => {
     request: getRequest(),
     req
   };
-  const error = t.throws(() => {
-    meta.middleware(ctx, next);
-  });
-  t.is(error.message, 'path "/blog" needs a meta config key defined');
+  const spy = sinon.spy(console, 'error');
+  meta.middleware(ctx, next);
+  spy.calledWithMatch('path "/blog" needs a meta config key defined');
+  spy.restore();
+  t.pass();
 });
 
 test('getByPath throws error without `path` string', t => {
