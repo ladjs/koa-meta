@@ -94,7 +94,7 @@ console.log(meta.getByPath('/posts/123456'));
 
 This package supports translation out of the box.
 
-It checks for a function set on `ctx.req.t` and utilizes that function to translate based off the request's locale.
+It checks for a function set on `ctx.request.t` and utilizes that function to translate based off the request's locale.
 
 
 ## Child Path Support

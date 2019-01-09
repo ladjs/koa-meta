@@ -52,7 +52,7 @@ class Meta {
 
     // translate the meta information
     key = key.map(str => {
-      // this has built in support for @ladjs/i18n via `ctx.req.t`
+      // this has built in support for @ladjs/i18n via `ctx.request.t`
       if (t) {
         // replace `|` pipe character because
         // translation will interpret as ranged interval
@@ -81,10 +81,10 @@ class Meta {
     // since it exposes `ctx.pathWithoutLocale`
     let data = {};
     try {
-      data = this.getByPath(ctx.pathWithoutLocale || ctx.path, ctx.req.t);
+      data = this.getByPath(ctx.pathWithoutLocale || ctx.path, ctx.request.t);
     } catch (err) {
       this.logger.error(err);
-      data = this.getByPath('/', ctx.req.t);
+      data = this.getByPath('/', ctx.request.t);
     }
     Object.assign(ctx.state, { meta: {} });
     Object.assign(ctx.state.meta, data);

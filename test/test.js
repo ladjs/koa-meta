@@ -5,12 +5,21 @@ const Meta = require('..');
 
 const next = () => {};
 const req = {};
-const getRequest = () => {
+const getRequest = (t = false) => {
   return {
     headers: {},
     get(prop) {
       return this.headers[prop];
-    }
+    },
+    ...(t
+      ? {
+          t: str =>
+            str
+              .split('')
+              .reverse()
+              .join('')
+        }
+      : {})
   };
 };
 
@@ -117,15 +126,8 @@ test('translation function', t => {
     path: '/',
     method: 'GET',
     state: {},
-    request: getRequest(),
-    req: {
-      t: str =>
-        str
-          .split('')
-          .reverse()
-          .join(''),
-      ...req
-    }
+    request: getRequest(true),
+    req
   };
   meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {
