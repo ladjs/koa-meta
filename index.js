@@ -72,7 +72,8 @@ class Meta {
 
   middleware(ctx, next) {
     // return early if its not a pure path (e.g. ignore static assets)
-    if (extname(ctx.path) !== '') return next();
+    // and also return early if it's not a GET request
+    if (ctx.method !== 'GET' || extname(ctx.path) !== '') return next();
 
     //
     // lookup page title and description
