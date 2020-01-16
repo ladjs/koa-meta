@@ -41,11 +41,11 @@ class Meta {
 
     // it should traverse up and split by / till it finds a parent route
     if (!key)
-      if (path === '/' || path.substring(0, path.lastIndexOf('/')) === '')
+      if (path === '/' || path.slice(0, path.lastIndexOf('/')) === '')
         throw new Error(`path "${path}" needs a meta config key defined`);
       else
         return this.getByPath(
-          path.substring(0, path.lastIndexOf('/')),
+          path.slice(0, path.lastIndexOf('/')),
           t,
           originalPath
         );
@@ -88,6 +88,7 @@ class Meta {
       this.logger.error(err);
       data = this.getByPath('/', ctx.request.t);
     }
+
     Object.assign(ctx.state.meta, data);
     return next();
   }

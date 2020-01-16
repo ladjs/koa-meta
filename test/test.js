@@ -38,11 +38,11 @@ test('middleware should ignore xhr requests', t => {
     req
   };
   meta.middleware(ctx, next);
-  t.deepEqual(ctx.state, {});
+  t.deepEqual(ctx.state, { meta: {} });
   ctx.method = 'GET';
   ctx.request.headers['X-Requested-With'] = 'XMLHttpRequest';
   meta.middleware(ctx, next);
-  t.deepEqual(ctx.state, {});
+  t.deepEqual(ctx.state, { meta: {} });
 });
 */
 
@@ -191,7 +191,7 @@ test('ignores paths in nested dir with a file extension', t => {
     req
   };
   meta.middleware(ctx, next);
-  t.deepEqual(ctx.state, {});
+  t.deepEqual(ctx.state, { meta: {} });
 });
 
 test('ignores paths in root dir with a file extension', t => {
@@ -204,7 +204,7 @@ test('ignores paths in root dir with a file extension', t => {
     req
   };
   meta.middleware(ctx, next);
-  t.deepEqual(ctx.state, {});
+  t.deepEqual(ctx.state, { meta: {} });
 });
 
 test('throws error on nested path without parent blog meta', t => {
@@ -227,7 +227,6 @@ test('throws error on nested path without parent blog meta', t => {
 
 test('getByPath throws error without `path` string', t => {
   const error = t.throws(() => {
-    // eslint-disable-next-line no-new
     new Meta().getByPath();
   });
   t.is(error.message, 'path is required and must be a String');
@@ -235,7 +234,6 @@ test('getByPath throws error without `path` string', t => {
 
 test('getByPath throws error with `t` defined non-function', t => {
   const error = t.throws(() => {
-    // eslint-disable-next-line no-new
     new Meta().getByPath('/', false);
   });
   t.is(error.message, 't must be a Function');
@@ -243,7 +241,6 @@ test('getByPath throws error with `t` defined non-function', t => {
 
 test('getByPath throws error without `originalPath` string', t => {
   const error = t.throws(() => {
-    // eslint-disable-next-line no-new
     new Meta().getByPath('/', null, false);
   });
   t.is(error.message, 'originalPath must be a String');
