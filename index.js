@@ -71,6 +71,7 @@ class Meta {
   }
 
   middleware(ctx, next) {
+    Object.assign(ctx.state, { meta: {} });
     // return early if its not a pure path (e.g. ignore static assets)
     // and also return early if it's not a GET request
     if (ctx.method !== 'GET' || extname(ctx.path) !== '') return next();
@@ -87,7 +88,6 @@ class Meta {
       this.logger.error(err);
       data = this.getByPath('/', ctx.request.t);
     }
-    Object.assign(ctx.state, { meta: {} });
     Object.assign(ctx.state.meta, data);
     return next();
   }
