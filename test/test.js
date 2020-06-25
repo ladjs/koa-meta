@@ -55,9 +55,12 @@ test('middleware should work', t => {
     method: 'GET',
     state: {},
     request: getRequest(),
-    req
+    req,
+    render: () => {},
+    status: 200
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
@@ -75,9 +78,11 @@ test('middleware should sanitize html', t => {
     method: 'GET',
     state: {},
     request: getRequest(),
+    render: () => {},
     req
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
@@ -127,9 +132,11 @@ test('translation function', t => {
     method: 'GET',
     state: {},
     request: getRequest(true),
+    render: () => {},
     req
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home'
@@ -154,9 +161,11 @@ test('uses parent meta on nested path', t => {
     method: 'GET',
     state: {},
     request: getRequest(),
+    render: () => {},
     req
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Blog',

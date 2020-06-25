@@ -75,21 +75,30 @@ class Meta {
     // return early if its not a pure path (e.g. ignore static assets)
     // and also return early if it's not a GET request
     if (ctx.method !== 'GET' || extname(ctx.path) !== '') return next();
+    if (!ctx.render) return next();
 
-    //
-    // lookup page title and description
-    //
-    // this has built in support for @ladjs/i18n
-    // since it exposes `ctx.pathWithoutLocale`
-    let data = {};
-    try {
-      data = this.getByPath(ctx.pathWithoutLocale || ctx.path, ctx.request.t);
-    } catch (err) {
-      this.logger.error(err);
-      data = this.getByPath('/', ctx.request.t);
-    }
+    const { render } = ctx;
+    ctx.render = (...args) => {
+      // if the status code was not 200 then return early
+      if (ctx.status !== 200) return render.call(this, ...args);
+      //
+      // lookup page title and description
+      //
+      // this has built in support for @ladjs/i18n
+      // since it exposes `ctx.pathWithoutLocale`
+      let data = {};
+      try {
+        data = this.getByPath(ctx.pathWithoutLocale || ctx.path, ctx.request.t);
+      } catch (err) {
+        this.logger.error(err);
+        data = this.getByPath('/', ctx.request.t);
+      }
 
-    Object.assign(ctx.state.meta, data);
+      Object.assign(ctx.state.meta, data);
+
+      render.call(this, ...args);
+    };
+
     return next();
   }
 }
