@@ -55,15 +55,56 @@ test('middleware should work', t => {
     method: 'GET',
     state: {},
     request: getRequest(),
-    req
+    req,
+    render: () => {},
+    status: 200
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
       description: 'Our home page description'
     }
   });
+});
+
+test('middleware should return early on non-2xx without data', t => {
+  const meta = new Meta({
+    '/': ['Home', 'Our home page description']
+  });
+  const ctx = {
+    path: '/',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req,
+    render: () => {},
+    status: 404
+  };
+  meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
+  t.deepEqual(ctx.state, {
+    meta: {}
+  });
+});
+
+test('middleware needs a meta config key', t => {
+  const meta = new Meta({
+    '/': ['Home', 'Our home page description']
+  });
+  const ctx = {
+    path: '/test',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req,
+    render: () => {},
+    status: 200
+  };
+  meta.middleware(ctx, next);
+  const err = t.throws(() => ctx.render());
+  t.is(err.message, 'path "/test" needs a meta config key defined');
 });
 
 test('middleware should sanitize html', t => {
@@ -75,9 +116,12 @@ test('middleware should sanitize html', t => {
     method: 'GET',
     state: {},
     request: getRequest(),
-    req
+    render: () => {},
+    req,
+    status: 200
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
@@ -127,9 +171,12 @@ test('translation function', t => {
     method: 'GET',
     state: {},
     request: getRequest(true),
-    req
+    render: () => {},
+    req,
+    status: 200
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home'
@@ -154,9 +201,12 @@ test('uses parent meta on nested path', t => {
     method: 'GET',
     state: {},
     request: getRequest(),
-    req
+    render: () => {},
+    req,
+    status: 200
   };
   meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Blog',
