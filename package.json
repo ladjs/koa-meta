@@ -7,61 +7,61 @@
     "url": "https://github.com/ladjs/koa-meta/issues",
     "email": "niftylettuce@gmail.com"
   },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
   "contributors": [
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
-    "auto-bind": "^4.0.0",
-    "sanitize-html": "^1.20.1"
+    "sanitize-html": "^1.27.0"
   },
   "devDependencies": {
-    "ava": "^2.4.0",
-    "codecov": "^3.6.1",
-    "cross-env": "^6.0.3",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.9.0",
+    "@commitlint/cli": "^9.0.1",
+    "@commitlint/config-conventional": "^9.0.1",
+    "ava": "^3.9.0",
+    "codecov": "^3.7.0",
+    "cross-env": "^7.0.2",
+    "eslint": "6.x",
     "eslint-config-xo-lass": "^1.0.3",
-    "eslint-plugin-prettier": "^3.1.2",
-    "husky": "^4.0.10",
-    "lint-staged": "^9.5.0",
-    "nyc": "^15.0.0",
-    "prettier": "^1.19.1",
-    "remark-cli": "^7.0.1",
-    "remark-preset-github": "^0.0.16",
-    "sinon": "^8.0.4",
-    "xo": "^0.25.3"
+    "fixpack": "^3.0.6",
+    "husky": "^4.2.5",
+    "lint-staged": "^10.2.11",
+    "nyc": "^15.1.0",
+    "remark-cli": "^8.0.0",
+    "remark-preset-github": "^2.0.0",
+    "sinon": "^9.0.2",
+    "xo": "0.25"
   },
   "engines": {
     "node": ">=8.3"
   },
   "homepage": "https://github.com/ladjs/koa-meta",
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged && npm test",
+      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+    }
+  },
   "keywords": [
     "@ladjs/meta",
-    "title",
     "description",
-    "meta",
+    "dictionary",
     "koa",
     "lad",
+    "lass",
+    "lookup",
+    "meta",
     "metadata",
+    "middleware",
+    "paths",
     "seo",
     "state",
-    "middleware",
-    "dictionary",
-    "paths",
-    "lookup",
-    "lass"
+    "title"
   ],
   "license": "MIT",
-  "lint-staged": {
-    "*.{js,jsx,mjs,ts,tsx,css,less,scss,json,graphql}": [
-      "prettier --write --single-quote --trailing-comma none",
-      "git add"
-    ],
-    "*.md": [
-      "remark . -qfo",
-      "git add"
-    ]
-  },
   "main": "index.js",
   "nyc": {
     "check-coverage": true,
@@ -73,6 +73,11 @@
       "html",
       "text"
     ]
+  },
+  "prettier": {
+    "singleQuote": true,
+    "bracketSpacing": true,
+    "trailingComma": "none"
   },
   "remarkConfig": {
     "plugins": [
@@ -89,11 +94,6 @@
     "precommit": "lint-staged && npm test",
     "test": "npm run lint && npm run test-coverage",
     "test-coverage": "cross-env NODE_ENV=test nyc ava"
-  },
-  "prettier": {
-    "singleQuote": true,
-    "bracketSpacing": true,
-    "trailingComma": "none"
   },
   "xo": {
     "prettier": true,

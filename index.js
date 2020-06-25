@@ -1,6 +1,6 @@
 const { extname } = require('path');
+
 const sanitizeHtml = require('sanitize-html');
-const autoBind = require('auto-bind');
 
 class Meta {
   constructor(config = {}, logger = console) {
@@ -21,7 +21,8 @@ class Meta {
       if (typeof this.config[path][1] !== 'string')
         throw new Error(`path "${path}" needs String for description`);
     });
-    autoBind(this);
+    this.getByPath = this.getByPath.bind(this);
+    this.middleware = this.middleware.bind(this);
   }
 
   getByPath(path, t, originalPath) {
