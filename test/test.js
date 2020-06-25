@@ -69,6 +69,44 @@ test('middleware should work', t => {
   });
 });
 
+test('middleware should return early on non-2xx without data', t => {
+  const meta = new Meta({
+    '/': ['Home', 'Our home page description']
+  });
+  const ctx = {
+    path: '/',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req,
+    render: () => {},
+    status: 404
+  };
+  meta.middleware(ctx, next);
+  ctx.render({ a: 1 });
+  t.deepEqual(ctx.state, {
+    meta: {}
+  });
+});
+
+test('middleware needs a meta config key', t => {
+  const meta = new Meta({
+    '/': ['Home', 'Our home page description']
+  });
+  const ctx = {
+    path: '/test',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req,
+    render: () => {},
+    status: 200
+  };
+  meta.middleware(ctx, next);
+  const err = t.throws(() => ctx.render());
+  t.is(err.message, 'path "/test" needs a meta config key defined');
+});
+
 test('middleware should sanitize html', t => {
   const meta = new Meta({
     '/': ['<strong>Home</strong>', 'Our <strong>home page</strong> description']
@@ -79,7 +117,8 @@ test('middleware should sanitize html', t => {
     state: {},
     request: getRequest(),
     render: () => {},
-    req
+    req,
+    status: 200
   };
   meta.middleware(ctx, next);
   ctx.render({ a: 1 });
@@ -133,7 +172,8 @@ test('translation function', t => {
     state: {},
     request: getRequest(true),
     render: () => {},
-    req
+    req,
+    status: 200
   };
   meta.middleware(ctx, next);
   ctx.render({ a: 1 });
@@ -162,7 +202,8 @@ test('uses parent meta on nested path', t => {
     state: {},
     request: getRequest(),
     render: () => {},
-    req
+    req,
+    status: 200
   };
   meta.middleware(ctx, next);
   ctx.render({ a: 1 });
