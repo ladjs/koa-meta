@@ -41,9 +41,15 @@ yarn add koa-meta
 > Use middleware:
 
 ```js
+const path = require('path');
+
+const views = require('koa-views');
 const Meta = require('koa-meta');
 
 /// ...
+
+// set template rendering engine (see @ladjs/web for inspiration)
+app.use(views(path.join(__dirname, 'views')));
 
 const meta = new Meta({
   '/': [ 'Home', 'Our home page description' ],
@@ -59,9 +65,10 @@ app.use(meta.middleware);
 app.use((ctx, next) => {
   // since the previous middleware was defined before this
   // the `ctx.state` object has been populated with metadata
-  console.log('ctx.state.meta', ctx.state.meta);
+  // when the render call occurs (it will not override any existing set values)
   // for a request with `ctx.path` of `/` it will output:
   // { title: 'Home', description: 'Our home page description' }
+  ctx.render('home');
 });
 ```
 
@@ -75,7 +82,7 @@ html
     meta(name="description", content=meta.description)
 ```
 
-> Get a meta translation:
+> Programmatically get a meta object/translated version of `title` and `description`:
 
 ```js
 const Meta = require('koa-meta');
