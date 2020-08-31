@@ -96,7 +96,7 @@ class Meta {
       }
 
       Object.assign(ctx.state.meta, data);
-      render.call(this, ...args);
+      return render.call(this, ...args);
     };
 
     return next();
