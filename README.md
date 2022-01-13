@@ -5,7 +5,7 @@
 [![code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![made with lass](https://img.shields.io/badge/made_with-lass-95CC28.svg)](https://lass.js.org)
-[![license](https://img.shields.io/github/license/ladjs/koa-meta.svg)](<>)
+[![license](https://img.shields.io/github/license/ladjs/koa-meta.svg)]()
 
 > Meta `<title>` and `<meta name="description">` middleware for Koa and Lad
 
@@ -117,6 +117,12 @@ By default this package will throw an error if a child path was found that does 
 
 This is extremely useful for retaining quality control with your configuration.
 
+However this is configurable based off the third argument passed to `new Meta()`, e.g. `new Meta(config, logger, levelForMissing`.
+
+The value of `levelForMissing` defaults to `error` for when `process.env.NODE_ENV` is equal to `development`, otherwise it defaults to `debug`.
+
+This is configurable, therefore you can simply pass `new Meta(config, logger, 'warn')` if you want `warn` to be the log level for missing meta configurations.
+
 
 ## Contributors
 
@@ -130,7 +136,7 @@ This is extremely useful for retaining quality control with your configuration.
 [MIT](LICENSE) © [Nick Baugh](http://niftylettuce.com/)
 
 
-## 
+##
 
 [npm]: https://www.npmjs.com/
 

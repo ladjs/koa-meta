@@ -16,24 +16,24 @@
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
-    "sanitize-html": "^1.27.4"
+    "sanitize-html": "^2.6.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
-    "ava": "^3.12.1",
-    "codecov": "^3.7.2",
-    "cross-env": "^7.0.2",
-    "eslint": "^7.7.0",
-    "eslint-config-xo-lass": "^1.0.3",
-    "fixpack": "^3.0.6",
-    "husky": "^4.2.5",
-    "lint-staged": "^10.2.13",
+    "@commitlint/cli": "^16.0.2",
+    "@commitlint/config-conventional": "^16.0.0",
+    "ava": "^4.0.1",
+    "codecov": "^3.8.2",
+    "cross-env": "^7.0.3",
+    "eslint": "^8.6.0",
+    "eslint-config-xo-lass": "^1.0.6",
+    "fixpack": "^4.0.0",
+    "husky": "^7.0.4",
+    "lint-staged": "^12.1.7",
     "nyc": "^15.1.0",
-    "remark-cli": "^8.0.1",
-    "remark-preset-github": "^3.0.0",
-    "sinon": "^9.0.3",
-    "xo": "^0.33.0"
+    "remark-cli": "^10.0.1",
+    "remark-preset-github": "^4.0.1",
+    "sinon": "^12.0.1",
+    "xo": "^0.47.0"
   },
   "engines": {
     "node": ">=8.3"

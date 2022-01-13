@@ -1,11 +1,19 @@
+const process = require('process');
+
 const sanitizeHtml = require('sanitize-html');
 
 class Meta {
-  constructor(config = {}, logger = console) {
+  constructor(
+    config = {},
+    logger = console,
+    /* istanbul ignore next */
+    levelForMissing = process.env.NODE_ENV === 'development' ? 'error' : 'debug'
+  ) {
     this.config = { '/': ['', ''], ...config };
     this.logger = logger;
+    this.levelForMissing = levelForMissing;
     // ensure all config keys are arrays with two keys
-    Object.keys(this.config).forEach((path) => {
+    for (const path of Object.keys(this.config)) {
       if (!Array.isArray(this.config[path]))
         throw new Error(`path "${path}" was not an array`);
       // slice only the first two keys (0 = title, 1 = description)
@@ -18,7 +26,8 @@ class Meta {
         throw new Error(`path "${path}" needs String for title`);
       if (typeof this.config[path][1] !== 'string')
         throw new Error(`path "${path}" needs String for description`);
-    });
+    }
+
     this.getByPath = this.getByPath.bind(this);
     this.middleware = this.middleware.bind(this);
   }
@@ -62,7 +71,7 @@ class Meta {
 
       return sanitizeHtml(string, {
         allowedTags: [],
-        allowedAttributes: []
+        allowedAttributes: {}
       });
     });
 
@@ -83,7 +92,7 @@ class Meta {
     //
     // this has built in support for @ladjs/i18n
     // since it exposes `ctx.pathWithoutLocale`
-    const { getByPath, logger } = this;
+    const { getByPath, logger, levelForMissing } = this;
     const { render } = ctx;
     // override existing render
     ctx.render = function (...args) {
@@ -91,7 +100,7 @@ class Meta {
       try {
         data = getByPath(ctx.pathWithoutLocale || ctx.path, ctx.request.t);
       } catch (err) {
-        logger.error(err);
+        logger[levelForMissing](err);
         data = getByPath('/', ctx.request.t);
       }
 

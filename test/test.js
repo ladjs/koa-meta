@@ -13,7 +13,7 @@ const getRequest = (t = false) => {
     },
     ...(t
       ? {
-          t: (string) => string.split('').reverse().join('')
+          t: (string) => [...string].reverse().join('')
         }
       : {})
   };
@@ -115,8 +115,8 @@ test('translation function', (t) => {
   ctx.render();
   t.deepEqual(ctx.state, {
     meta: {
-      title: 'Home'.split('').reverse().join(''),
-      description: 'Our home page description'.split('').reverse().join('')
+      title: [...'Home'].reverse().join(''),
+      description: [...'Our home page description'].reverse().join('')
     }
   });
 });
@@ -216,4 +216,28 @@ test('getByPath throws error without `originalPath` string', (t) => {
     new Meta().getByPath('/', null, false);
   });
   t.is(error.message, 'originalPath must be a String');
+});
+
+test('throws levelForMissing of warn on nested path without parent blog meta', (t) => {
+  const meta = new Meta(
+    {
+      '/': ['Home', 'Our home page description']
+    },
+    console,
+    'warn'
+  );
+  const ctx = {
+    path: '/blog/123',
+    method: 'GET',
+    state: {},
+    request: getRequest(),
+    req: request,
+    render: () => {}
+  };
+  const spy = sinon.spy(console, 'warn');
+  meta.middleware(ctx, next);
+  ctx.render();
+  spy.calledWithMatch('path "/blog" needs a meta config key defined');
+  spy.restore();
+  t.pass();
 });
