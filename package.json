@@ -16,7 +16,7 @@
     "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)"
   ],
   "dependencies": {
-    "sanitize-html": "^2.6.1"
+    "sanitize-html": "^2.7.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^16.0.2",
