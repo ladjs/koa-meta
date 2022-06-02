@@ -13,9 +13,9 @@ const getRequest = (t = false) => {
     },
     ...(t
       ? {
-          t: (string) => [...string].reverse().join('')
+          t: (string) => [...string].reverse().join(''),
         }
-      : {})
+      : {}),
   };
 };
 
@@ -25,7 +25,7 @@ test('returns itself', (t) => {
 
 test('middleware should work', (t) => {
   const meta = new Meta({
-    '/': ['Home', 'Our home page description']
+    '/': ['Home', 'Our home page description'],
   });
   const ctx = {
     path: '/',
@@ -33,21 +33,24 @@ test('middleware should work', (t) => {
     state: {},
     request: getRequest(),
     req: request,
-    render: () => {}
+    render() {},
   };
   meta.middleware(ctx, next);
   ctx.render();
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
-      description: 'Our home page description'
-    }
+      description: 'Our home page description',
+    },
   });
 });
 
 test('middleware should sanitize html', (t) => {
   const meta = new Meta({
-    '/': ['<strong>Home</strong>', 'Our <strong>home page</strong> description']
+    '/': [
+      '<strong>Home</strong>',
+      'Our <strong>home page</strong> description',
+    ],
   });
   const ctx = {
     path: '/',
@@ -55,22 +58,22 @@ test('middleware should sanitize html', (t) => {
     state: {},
     request: getRequest(),
     req: request,
-    render: () => {}
+    render() {},
   };
   meta.middleware(ctx, next);
   ctx.render();
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Home',
-      description: 'Our home page description'
-    }
+      description: 'Our home page description',
+    },
   });
 });
 
 test('set an invalid config path without an array', (t) => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new Meta({ '/': false });
+    new Meta({'/': false});
   });
   t.regex(error.message, /was not an array/);
 });
@@ -78,7 +81,7 @@ test('set an invalid config path without an array', (t) => {
 test('set an invalid config path without two keys', (t) => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new Meta({ '/': [] });
+    new Meta({'/': []});
   });
   t.regex(error.message, /must have exactly two keys/);
 });
@@ -86,7 +89,7 @@ test('set an invalid config path without two keys', (t) => {
 test('set an invalid config key title', (t) => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new Meta({ '/': [false, false] });
+    new Meta({'/': [false, false]});
   });
   t.regex(error.message, /needs String for title/);
 });
@@ -94,14 +97,14 @@ test('set an invalid config key title', (t) => {
 test('set an invalid config key description', (t) => {
   const error = t.throws(() => {
     // eslint-disable-next-line no-new
-    new Meta({ '/': ['', false] });
+    new Meta({'/': ['', false]});
   });
   t.regex(error.message, /needs String for description/);
 });
 
 test('translation function', (t) => {
   const meta = new Meta({
-    '/': ['Home', 'Our home page description']
+    '/': ['Home', 'Our home page description'],
   });
   const ctx = {
     path: '/',
@@ -109,22 +112,22 @@ test('translation function', (t) => {
     state: {},
     request: getRequest(true),
     req: request,
-    render: () => {}
+    render() {},
   };
   meta.middleware(ctx, next);
   ctx.render();
   t.deepEqual(ctx.state, {
     meta: {
       title: [...'Home'].reverse().join(''),
-      description: [...'Our home page description'].reverse().join('')
-    }
+      description: [...'Our home page description'].reverse().join(''),
+    },
   });
 });
 
 test('uses parent meta on nested path', (t) => {
   const meta = new Meta({
     '/': ['Home', 'Our home page description'],
-    '/blog': ['Blog', 'Our blog and more about our company']
+    '/blog': ['Blog', 'Our blog and more about our company'],
   });
   const ctx = {
     path: '/blog/123',
@@ -132,15 +135,15 @@ test('uses parent meta on nested path', (t) => {
     state: {},
     request: getRequest(),
     req: request,
-    render: () => {}
+    render() {},
   };
   meta.middleware(ctx, next);
   ctx.render();
   t.deepEqual(ctx.state, {
     meta: {
       title: 'Blog',
-      description: 'Our blog and more about our company'
-    }
+      description: 'Our blog and more about our company',
+    },
   });
 });
 
@@ -152,7 +155,7 @@ test('throws error on nested path without parent home meta', (t) => {
     state: {},
     request: getRequest(),
     req: request,
-    render: () => {}
+    render() {},
   };
   const spy = sinon.spy(console, 'error');
   meta.middleware(ctx, next);
@@ -164,14 +167,14 @@ test('throws error on nested path without parent home meta', (t) => {
 
 test('does not add to ctx.state.meta when no ctx.render', (t) => {
   const meta = new Meta({
-    '/': ['Home', 'Our home page description']
+    '/': ['Home', 'Our home page description'],
   });
   const ctx = {
     path: '/',
     method: 'GET',
     state: {},
     request: getRequest(),
-    req: request
+    req: request,
   };
   meta.middleware(ctx, next);
   t.deepEqual(ctx.state, {});
@@ -179,7 +182,7 @@ test('does not add to ctx.state.meta when no ctx.render', (t) => {
 
 test('throws error on nested path without parent blog meta', (t) => {
   const meta = new Meta({
-    '/': ['Home', 'Our home page description']
+    '/': ['Home', 'Our home page description'],
   });
   const ctx = {
     path: '/blog/123',
@@ -187,7 +190,7 @@ test('throws error on nested path without parent blog meta', (t) => {
     state: {},
     request: getRequest(),
     req: request,
-    render: () => {}
+    render() {},
   };
   const spy = sinon.spy(console, 'error');
   meta.middleware(ctx, next);
@@ -221,10 +224,10 @@ test('getByPath throws error without `originalPath` string', (t) => {
 test('throws levelForMissing of warn on nested path without parent blog meta', (t) => {
   const meta = new Meta(
     {
-      '/': ['Home', 'Our home page description']
+      '/': ['Home', 'Our home page description'],
     },
     console,
-    'warn'
+    'warn',
   );
   const ctx = {
     path: '/blog/123',
@@ -232,7 +235,7 @@ test('throws levelForMissing of warn on nested path without parent blog meta', (
     state: {},
     request: getRequest(),
     req: request,
-    render: () => {}
+    render() {},
   };
   const spy = sinon.spy(console, 'warn');
   meta.middleware(ctx, next);
@@ -240,4 +243,35 @@ test('throws levelForMissing of warn on nested path without parent blog meta', (
   spy.calledWithMatch('path "/blog" needs a meta config key defined');
   spy.restore();
   t.pass();
+});
+
+test('does not override existing meta', (t) => {
+  const meta = new Meta(
+    {
+      '/': ['Home', 'Our home page description'],
+    },
+    console,
+    'warn',
+  );
+  const ctx = {
+    path: '/blog/123',
+    method: 'GET',
+    state: {
+      meta: {
+        title: 'Title',
+        description: 'Description',
+      },
+    },
+    request: getRequest(),
+    req: request,
+    render() {},
+  };
+  meta.middleware(ctx, next);
+  ctx.render();
+  t.deepEqual(ctx.state, {
+    meta: {
+      title: 'Title',
+      description: 'Description',
+    },
+  });
 });

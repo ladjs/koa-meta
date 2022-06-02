@@ -1,5 +1,6 @@
 const process = require('process');
 
+const isSANB = require('is-string-and-not-blank');
 const sanitizeHtml = require('sanitize-html');
 
 class Meta {
@@ -7,9 +8,11 @@ class Meta {
     config = {},
     logger = console,
     /* istanbul ignore next */
-    levelForMissing = process.env.NODE_ENV === 'development' ? 'error' : 'debug'
+    levelForMissing = process.env.NODE_ENV === 'development'
+      ? 'error'
+      : 'debug',
   ) {
-    this.config = { '/': ['', ''], ...config };
+    this.config = {'/': ['', ''], ...config};
     this.logger = logger;
     this.levelForMissing = levelForMissing;
     // ensure all config keys are arrays with two keys
@@ -55,7 +58,7 @@ class Meta {
         return this.getByPath(
           path.slice(0, path.lastIndexOf('/')),
           t,
-          originalPath
+          originalPath,
         );
 
     // translate the meta information
@@ -71,31 +74,35 @@ class Meta {
 
       return sanitizeHtml(string, {
         allowedTags: [],
-        allowedAttributes: {}
+        allowedAttributes: {},
       });
     });
 
-    return { title: key[0], description: key[1] };
+    return {title: key[0], description: key[1]};
   }
 
   middleware(ctx, next) {
     // return early if there was no `ctx.render` bound
     if (!ctx.render) return next();
 
-    // provide a default `ctx.state.meta` object used in routes/middleware
-    Object.assign(ctx.state, { meta: {} });
-
-    //
-    // NOTE: we only should populate `ctx.state.meta` on ctx.render calls
     //
     // lookup page title and description
     //
     // this has built in support for @ladjs/i18n
     // since it exposes `ctx.pathWithoutLocale`
-    const { getByPath, logger, levelForMissing } = this;
-    const { render } = ctx;
-    // override existing render
+    const {getByPath, logger, levelForMissing} = this;
+    const {render} = ctx;
+    // override existing render but if and only if
+    // title and description weren't both set
     ctx.render = function (...args) {
+      // provide a default `ctx.state.meta` object used in routes/middleware
+      ctx.state.meta = ctx.state.meta || {};
+
+      // if we already had a title/description (e.g. 404) then return early
+      if (isSANB(ctx.state.meta.title) && isSANB(ctx.state.meta.description))
+        return next();
+
+      // otherwise lookup the meta config
       let data = {};
       try {
         data = getByPath(ctx.pathWithoutLocale || ctx.path, ctx.request.t);
