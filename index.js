@@ -8,11 +8,9 @@ class Meta {
     config = {},
     logger = console,
     /* istanbul ignore next */
-    levelForMissing = process.env.NODE_ENV === 'development'
-      ? 'error'
-      : 'debug',
+    levelForMissing = process.env.NODE_ENV === 'development' ? 'error' : 'debug'
   ) {
-    this.config = {'/': ['', ''], ...config};
+    this.config = { '/': ['', ''], ...config };
     this.logger = logger;
     this.levelForMissing = levelForMissing;
     // ensure all config keys are arrays with two keys
@@ -58,7 +56,7 @@ class Meta {
         return this.getByPath(
           path.slice(0, path.lastIndexOf('/')),
           t,
-          originalPath,
+          originalPath
         );
 
     // translate the meta information
@@ -74,11 +72,11 @@ class Meta {
 
       return sanitizeHtml(string, {
         allowedTags: [],
-        allowedAttributes: {},
+        allowedAttributes: {}
       });
     });
 
-    return {title: key[0], description: key[1]};
+    return { title: key[0], description: key[1] };
   }
 
   middleware(ctx, next) {
@@ -90,8 +88,8 @@ class Meta {
     //
     // this has built in support for @ladjs/i18n
     // since it exposes `ctx.pathWithoutLocale`
-    const {getByPath, logger, levelForMissing} = this;
-    const {render} = ctx;
+    const { getByPath, logger, levelForMissing } = this;
+    const { render } = ctx;
     // override existing render but if and only if
     // title and description weren't both set
     ctx.render = function (...args) {
