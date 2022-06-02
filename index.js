@@ -98,7 +98,7 @@ class Meta {
 
       // if we already had a title/description (e.g. 404) then return early
       if (isSANB(ctx.state.meta.title) && isSANB(ctx.state.meta.description))
-        return next();
+        return render.call(this, ...args);
 
       // otherwise lookup the meta config
       let data = {};
