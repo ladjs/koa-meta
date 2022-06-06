@@ -1,7 +1,7 @@
 {
   "name": "koa-meta",
   "description": "SEO <title> and <meta name=\"description\"> middleware for Koa and Lad",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "author": "Nick Baugh <niftylettuce@gmail.com> (http://niftylettuce.com/)",
   "bugs": {
     "url": "https://github.com/ladjs/koa-meta/issues",
