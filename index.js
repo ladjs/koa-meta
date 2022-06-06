@@ -83,6 +83,9 @@ class Meta {
     // return early if there was no `ctx.render` bound
     if (!ctx.render) return next();
 
+    // provide a default `ctx.state.meta` object used in routes/middleware
+    ctx.state.meta = ctx.state.meta || {};
+
     //
     // lookup page title and description
     //
@@ -93,9 +96,6 @@ class Meta {
     // override existing render but if and only if
     // title and description weren't both set
     ctx.render = function (...args) {
-      // provide a default `ctx.state.meta` object used in routes/middleware
-      ctx.state.meta = ctx.state.meta || {};
-
       // if we already had a title/description (e.g. 404) then return early
       if (isSANB(ctx.state.meta.title) && isSANB(ctx.state.meta.description))
         return render.call(this, ...args);

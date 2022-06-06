@@ -1,7 +1,6 @@
 # koa-meta
 
-[![build status](https://img.shields.io/travis/ladjs/koa-meta.svg)](https://travis-ci.org/ladjs/koa-meta)
-[![code coverage](https://img.shields.io/codecov/c/github/ladjs/koa-meta.svg)](https://codecov.io/gh/ladjs/koa-meta)
+[![build status](https://github.com/ladjs/koa-meta/actions/workflows/ci.yml/badge.svg)](https://github.com/ladjs/koa-meta/actions/workflows/ci.yml)
 [![code style](https://img.shields.io/badge/code_style-XO-5ed9c7.svg)](https://github.com/sindresorhus/xo)
 [![styled with prettier](https://img.shields.io/badge/styled_with-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
 [![made with lass](https://img.shields.io/badge/made_with-lass-95CC28.svg)](https://lass.js.org)
@@ -27,12 +26,6 @@
 
 ```sh
 npm install koa-meta
-```
-
-[yarn][]:
-
-```sh
-yarn add koa-meta
 ```
 
 
@@ -139,5 +132,3 @@ This is configurable, therefore you can simply pass `new Meta(config, logger, 'w
 ##
 
 [npm]: https://www.npmjs.com/
-
-[yarn]: https://yarnpkg.com/
