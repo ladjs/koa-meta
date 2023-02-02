@@ -30,6 +30,7 @@ test('middleware should work', (t) => {
   const ctx = {
     path: '/',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(),
     req: request,
@@ -52,6 +53,7 @@ test('middleware should sanitize html', (t) => {
   const ctx = {
     path: '/',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(),
     req: request,
@@ -106,6 +108,7 @@ test('translation function', (t) => {
   const ctx = {
     path: '/',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(true),
     req: request,
@@ -129,6 +132,7 @@ test('uses parent meta on nested path', (t) => {
   const ctx = {
     path: '/blog/123',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(),
     req: request,
@@ -149,6 +153,7 @@ test('throws error on nested path without parent home meta', (t) => {
   const ctx = {
     path: '/123',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(),
     req: request,
@@ -169,6 +174,7 @@ test('does not add to ctx.state.meta when no ctx.render', (t) => {
   const ctx = {
     path: '/',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(),
     req: request
@@ -184,6 +190,7 @@ test('throws error on nested path without parent blog meta', (t) => {
   const ctx = {
     path: '/blog/123',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(),
     req: request,
@@ -229,6 +236,7 @@ test('throws levelForMissing of warn on nested path without parent blog meta', (
   const ctx = {
     path: '/blog/123',
     method: 'GET',
+    status: 200,
     state: {},
     request: getRequest(),
     req: request,
@@ -253,6 +261,7 @@ test('does not override existing meta', (t) => {
   const ctx = {
     path: '/blog/123',
     method: 'GET',
+    status: 200,
     state: {
       meta: {
         title: 'Title',

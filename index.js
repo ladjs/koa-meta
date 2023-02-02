@@ -33,7 +33,7 @@ class Meta {
     this.middleware = this.middleware.bind(this);
   }
 
-  getByPath(path, t, originalPath) {
+  getByPath(path, t, originalPath, ctx) {
     if (typeof path !== 'string')
       throw new Error('path is required and must be a String');
 
@@ -50,13 +50,17 @@ class Meta {
 
     // it should traverse up and split by / till it finds a parent route
     if (!key)
-      if (path === '/' || path.slice(0, path.lastIndexOf('/')) === '')
+      if (
+        (!ctx || !ctx.status || ctx.status === 200) &&
+        (path === '/' || path.slice(0, path.lastIndexOf('/')) === '')
+      )
         throw new Error(`path "${path}" needs a meta config key defined`);
       else
         return this.getByPath(
           path.slice(0, path.lastIndexOf('/')),
           t,
-          originalPath
+          originalPath,
+          ctx
         );
 
     // translate the meta information
@@ -98,19 +102,24 @@ class Meta {
     ctx.render = function (...args) {
       // if we already had a title/description (e.g. 404) then return early
       if (isSANB(ctx.state.meta.title) && isSANB(ctx.state.meta.description))
-        return render.call(this, ...args);
+        return render.call(ctx, ...args);
 
       // otherwise lookup the meta config
       let data = {};
       try {
-        data = getByPath(ctx.pathWithoutLocale || ctx.path, ctx.request.t);
+        data = getByPath(
+          ctx.pathWithoutLocale || ctx.path,
+          ctx.request.t,
+          null,
+          ctx
+        );
       } catch (err) {
         logger[levelForMissing](err);
-        data = getByPath('/', ctx.request.t);
+        data = getByPath('/', ctx.request.t, null, ctx);
       }
 
       Object.assign(ctx.state.meta, data);
-      return render.call(this, ...args);
+      return render.call(ctx, ...args);
     };
 
     return next();
