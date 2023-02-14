@@ -33,7 +33,7 @@ class Meta {
     this.middleware = this.middleware.bind(this);
   }
 
-  getByPath(path, t, originalPath, ctx) {
+  getByPath(path = '/', t, originalPath, ctx) {
     if (typeof path !== 'string')
       throw new Error('path is required and must be a String');
 
@@ -57,7 +57,7 @@ class Meta {
         throw new Error(`path "${path}" needs a meta config key defined`);
       else
         return this.getByPath(
-          path.slice(0, path.lastIndexOf('/')),
+          path.slice(0, path.lastIndexOf('/')) || '/',
           t,
           originalPath,
           ctx
@@ -108,7 +108,7 @@ class Meta {
       let data = {};
       try {
         data = getByPath(
-          ctx.pathWithoutLocale || ctx.path,
+          ctx.pathWithoutLocale || ctx.path || '/',
           ctx.request.t,
           null,
           ctx

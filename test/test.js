@@ -206,7 +206,7 @@ test('throws error on nested path without parent blog meta', (t) => {
 
 test('getByPath throws error without `path` string', (t) => {
   const error = t.throws(() => {
-    new Meta().getByPath();
+    new Meta().getByPath(2);
   });
   t.is(error.message, 'path is required and must be a String');
 });
