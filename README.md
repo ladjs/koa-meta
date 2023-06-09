@@ -36,7 +36,7 @@ npm install koa-meta
 ```js
 const path = require('path');
 
-const views = require('koa-views');
+const views = require('@ladjs/koa-views');
 const Meta = require('koa-meta');
 
 /// ...
