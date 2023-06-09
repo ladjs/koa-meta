@@ -1,5 +1,4 @@
-const process = require('process');
-
+const process = require('node:process');
 const isSANB = require('is-string-and-not-blank');
 const sanitizeHtml = require('sanitize-html');
 
@@ -37,10 +36,10 @@ class Meta {
     if (typeof path !== 'string')
       throw new Error('path is required and must be a String');
 
-    if (originalPath === null || typeof originalPath === 'undefined')
+    if (originalPath === null || originalPath === undefined)
       originalPath = path;
 
-    if (t !== null && typeof t !== 'undefined' && typeof t !== 'function')
+    if (t !== null && t !== undefined && typeof t !== 'function')
       throw new Error('t must be a Function');
 
     if (typeof originalPath !== 'string')

@@ -1,6 +1,5 @@
 const test = require('ava');
 const sinon = require('sinon');
-
 const Meta = require('..');
 
 const next = () => {};
