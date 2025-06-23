@@ -79,7 +79,7 @@ class Meta {
       });
     });
 
-    return { title: key[0], description: key[1] };
+    return { title: key[0], description: key[1], image: key[2] || null };
   }
 
   middleware(ctx, next) {
