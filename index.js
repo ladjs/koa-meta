@@ -79,7 +79,9 @@ class Meta {
       });
     });
 
-    return { title: key[0], description: key[1], image: key[2] || null };
+    const obj = { title: key[0], description: key[1] };
+    if (key[2]) obj.image = key[2];
+    return obj;
   }
 
   middleware(ctx, next) {
