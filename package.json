@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "is-string-and-not-blank": "^0.0.2",
-    "sanitize-html": "^2.10.0"
+    "sanitize-html": "2.17.5"
   },
   "devDependencies": {
     "@commitlint/cli": "^17.6.5",
